@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "p1",
-    "slug": "p1",
+    "name": "Gordon Events Weather",
+    "slug": "GEW",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
