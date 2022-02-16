@@ -3,7 +3,7 @@
 cps350-2022-p1-white-scully
 
 <b>A quick note about Luxon implementation</b>
-  For Luxon, a DatePicker package, in order to work on Android framework needs the "Intl" package which determines what date format is to be used.
+  For Luxon, a DatePicker package, to work on Android, the build needs the "Intl" package which determines what date format is to be used.
   This needs to be added to the "build.gradle" file which is not available in expo. After much research, I have determined that 
   it would not be productive to search for another DateTime library, and have a temporary fix on how to allow Luxon to work on Android detailed below.
   
