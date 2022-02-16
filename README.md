@@ -11,7 +11,7 @@ cps350-2022-p1-white-scully
 - Run `npm install` command in project directory
 - Navigate in the project directory to "node_modules/luxon/build/cjs-browser"
 - Select the "luxon.js" file
-- Below `'use strict'`, paste the following lines
+- Below `'use strict';`, paste the following lines
 ```
 import 'intl';
 import 'intl/locale-data/jsonp/en';
