@@ -1,7 +1,8 @@
 import React from "react";
-import Svg, { Path } from "react-native-svg"
+// import Svg, { Path } from "react-native-svg"
 
 // This is a helper file to convert svg to JSX fragment so that they are able to be used better with the project
+// NOT WORKING CURRENTLY, LEAVING HERE FOR REFERENCE
 
 
 const CalendarIcon = () => {
