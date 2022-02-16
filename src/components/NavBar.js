@@ -12,12 +12,18 @@ const NavBar = (props) => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: colors.light.navbar
-        }
+          backgroundColor: colors.light.navbar,
+        },
       }}
     >
-      <Tab.Screen name="Home" children={()=><Home localWeatherData={props.localWeatherData}/>} />
-      <Tab.Screen name="Events" component={Events} />
+      <Tab.Screen
+        name="Home"
+        children={() => <Home localWeatherData={props.localWeatherData} />}
+      />
+      <Tab.Screen
+        name="Events"
+        children={() => <Events events={props.events} gordonWeatherData={props.gordonWeatherData}/>}
+      />
     </Tab.Navigator>
   );
 };

@@ -31,6 +31,14 @@ const App = (props) => {
     const then = DateTime.now().plus({ days: 9 });
     setLocalWeatherData(tempWeather);
     setGordonWeatherData(gordonWeather);
+    // console.log(gordonWeather);
+    // console.log(
+    //   tempEvents.filter(
+    //     (e) =>
+    //       new Date(e.Occurrences[0].StartDate).getTime() > now &&
+    //       new Date(e.Occurrences[0].StartDate).getTime() < then
+    //   )
+    // );
     setEvents(
       tempEvents.filter(
         (e) =>
