@@ -42,4 +42,4 @@ const fetchWeather = async (latitude, longitude) => {
   return weather;
 };
 
-export { getWeatherLocal };
+export { getWeatherLocal, getWeatherWenham };

@@ -1,3 +1,5 @@
+// This is a helper file to help define color names for the scope of the project
+
 const colors = {
   light: {
     background: "#AAC2D6",

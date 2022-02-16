@@ -1,19 +1,23 @@
 import { StatusBar } from "expo-status-bar";
 import { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { getPublicEvents } from "./src/services/EventService";
-import { getWeatherLocal } from "./src/services/WeatherService";
 import { DateTime } from "luxon";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import { getPublicEvents } from "./src/services/EventService";
+import { getWeatherLocal, getWeatherWenham } from "./src/services/WeatherService";
 import Events from "./src/views/Events";
+import colors from "./Colors";
 
 const Stack = createNativeStackNavigator();
 
 const App = (props) => {
-  const [weatherData, setWeatherData] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [localWeatherData, setLocalWeatherData] = useState({});
+  const [gordonWeatherData, setGordonWeatherData] = useState({});
   const [events, setEvents] = useState({});
+  const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     EventWeatherCall();
@@ -23,9 +27,11 @@ const App = (props) => {
     setLoading(true);
     let tempWeather = await getWeatherLocal();
     let tempEvents = await getPublicEvents();
+    let gordonWeather = await getWeatherWenham();
     const now = DateTime.now();
     const then = DateTime.now().plus({ days: 9 });
-    setWeatherData(tempWeather);
+    setLocalWeatherData(tempWeather);
+    setGordonWeatherData(gordonWeather);
     setEvents(
       tempEvents.filter(
         (e) =>
@@ -53,8 +59,7 @@ const App = (props) => {
         >
           <Stack.Screen name="Events" component={Events} />
         </Stack.Navigator>
-        <View>
-
+        <View styles={styles.navBar}>
         </View>
         <StatusBar style="auto" />
       </NavigationContainer>
@@ -65,10 +70,15 @@ const App = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#AAC2D6",
+    backgroundColor: colors.light.background,
     alignItems: "center",
     justifyContent: "center",
   },
+  navBar: {
+    backgroundColor: colors.light.navbar,
+    alignItems: "center",
+    justifyContent: "center",
+  }
 });
 
 export default App;
