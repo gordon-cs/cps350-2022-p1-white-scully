@@ -50,7 +50,7 @@ const App = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#AAC2D6",
     alignItems: "center",
     justifyContent: "center",
   },
