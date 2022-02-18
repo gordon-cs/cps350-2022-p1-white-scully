@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import colors from "../../Colors";
 
 const Events = (props) => {
-  let content = props.events.map((e) => <EventListItem events={e} />);
+  let content = props.events.map((e) => <EventListItem events={e} key={"Event" + e[2]}/>);
 
   return (
     <SafeAreaView style={styles.container}>

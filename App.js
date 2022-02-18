@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { DateTime } from "luxon";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -63,7 +63,9 @@ const App = () => {
             let thirtyAfter = hourWeather.time_epoch + 30 * 60;
 
             if (thirtyBefore < startTime && startTime <= thirtyAfter) {
-              gordonEvents.push([eventData[i], hourWeather]);
+              
+              // Put "i" into array to have a unique key when developing list
+              gordonEvents.push([eventData[i], hourWeather, i]);
             }
           }
         }
