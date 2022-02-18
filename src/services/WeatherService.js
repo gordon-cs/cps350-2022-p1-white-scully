@@ -22,7 +22,7 @@ const getWeatherLocal = async () => {
  * @returns {Weather {}} the weather object containing the weather for ten days
  */
 const getWeatherWenham = async () => {
-  const wenhamWeather = fetchWeather(42.5908, 70.8237);
+  const wenhamWeather = fetchWeather(42.589440, -70.823560);
   return wenhamWeather;
 };
 

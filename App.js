@@ -12,10 +12,9 @@ import {
 import colors from "./Colors";
 import NavBar from "./src/components/NavBar";
 
-const App = (props) => {
+const App = () => {
   const [localWeatherData, setLocalWeatherData] = useState({});
-  const [gordonWeatherData, setGordonWeatherData] = useState({});
-  const [events, setEvents] = useState({});
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,29 +22,58 @@ const App = (props) => {
   }, []);
 
   const EventWeatherCall = async () => {
+    // Set loading so page waits for data
     setLoading(true);
-    let tempWeather = await getWeatherLocal();
-    let tempEvents = await getPublicEvents();
-    let gordonWeather = await getWeatherWenham();
+
+    // Make calls via services
+    const localWeather = await getWeatherLocal();
+    const tempEvents = await getPublicEvents();
+    const gordonWeather = await getWeatherWenham();
+
+    // Set each Gordon event with its corresponding weather
+
+    // Get the 9 day period we are able to pull weather for
     const now = DateTime.now();
     const then = DateTime.now().plus({ days: 9 });
-    setLocalWeatherData(tempWeather);
-    setGordonWeatherData(gordonWeather);
-    // console.log(gordonWeather);
-    // console.log(
-    //   tempEvents.filter(
-    //     (e) =>
-    //       new Date(e.Occurrences[0].StartDate).getTime() > now &&
-    //       new Date(e.Occurrences[0].StartDate).getTime() < then
-    //   )
-    // );
-    setEvents(
-      tempEvents.filter(
-        (e) =>
-          new Date(e.Occurrences[0].StartDate).getTime() > now &&
-          new Date(e.Occurrences[0].StartDate).getTime() < then
-      )
+
+    // Filter the events to fit between the 9 day period
+    const eventData = tempEvents.filter(
+      (e) =>
+        new Date(e.Occurrences[0].StartDate).getTime() > now &&
+        new Date(e.Occurrences[0].StartDate).getTime() < then
     );
+
+    let gordonEvents = [];
+
+    // Loop through the events and match their times with the weather times
+    for (let i = 0; i < eventData.length; i++) {
+
+      // Get the start time of the event in seconds from epoch
+      let startTime = new Date(eventData[i].Occurrences[0].StartDate).getTime()/1000;
+
+      // Loop through the weather object to find matching epoch
+      for (let day = 0; day < 10; day++) {
+        for (let hour = 0; hour < 24; hour++) {
+
+          // Define period for what hourly weather should round too.
+          // In our case, it will round to the nearest hour (down if equal to 30 minute mark)
+          let hourWeather = gordonWeather.forecast.forecastday[day].hour[hour]
+          let thirtyBefore =
+            (hourWeather.time_epoch -
+              30 * 60);
+          let thirtyAfter =
+            (hourWeather.time_epoch +
+              30 * 60);
+          
+          if (thirtyBefore < startTime && startTime <= thirtyAfter) {
+            gordonEvents.push([eventData[i], hourWeather]);
+          }
+        }
+      }
+    }
+
+    setLocalWeatherData(localWeather);
+    setEvents(gordonEvents);
     setLoading(false);
   };
 
@@ -61,7 +89,6 @@ const App = (props) => {
       <NavigationContainer>
         <NavBar
           localWeatherData={localWeatherData}
-          gordonWeatherData={gordonWeatherData}
           events={events}
         />
         <StatusBar style="auto" />

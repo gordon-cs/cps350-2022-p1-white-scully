@@ -22,7 +22,7 @@ const NavBar = (props) => {
       />
       <Tab.Screen
         name="Events"
-        children={() => <Events events={props.events} gordonWeatherData={props.gordonWeatherData}/>}
+        children={() => <Events events={props.events}/>}
       />
     </Tab.Navigator>
   );
