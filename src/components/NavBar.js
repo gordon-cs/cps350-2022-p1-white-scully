@@ -12,7 +12,7 @@ const NavBar = (props) => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: colors.light.navbar,
+        backgroundColor: colors.light.navbar,
         },
       }}
     >
