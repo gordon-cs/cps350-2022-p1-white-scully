@@ -21,7 +21,7 @@ const NavBar = (props) => {
         name="Home"
         children={() => <Home localWeatherData={props.localWeatherData} />}
         options={{
-          tabBarIcon: ({ size, focused, color }) => {
+          tabBarIcon: ({focused}) => {
             return (
               <Sun
                 color={focused ? colors.light.accent : colors.white}
@@ -35,7 +35,7 @@ const NavBar = (props) => {
         name="Events"
         children={() => <Events events={props.events} />}
         options={{
-          tabBarIcon: ({ size, focused, color }) => {
+          tabBarIcon: ({focused}) => {
             return (
               <Calendar
                 color={focused ? colors.light.accent : colors.white}

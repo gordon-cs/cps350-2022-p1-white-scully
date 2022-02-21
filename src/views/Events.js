@@ -6,20 +6,25 @@ import {
   StatusBar,
   View,
 } from "react-native";
-import { useState, useEffect } from "react";
 import colors from "../../Colors";
 
 const Events = (props) => {
-  let content = props.events.map((e) => <EventListItem events={e} key={"Event" + e[2]}/>);
+  let content = props.events.map((e) => (
+    <EventListItem events={e} key={"Event" + e[2]} />
+  ));
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        <Text style={styles.header}>Gordon College</Text>
+        <Text style={styles.subHeader}>Event Calendar</Text>
+        <View style={styles.dateView}></View>
         <View>{content}</View>
       </ScrollView>
     </SafeAreaView>
   );
 };
+
 
 const EventListItem = (props) => {
   return (
@@ -43,6 +48,8 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: colors.light.background,
     marginHorizontal: 10,
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
     fontSize: 16,
@@ -50,6 +57,25 @@ const styles = StyleSheet.create({
   listItem: {
     backgroundColor: colors.light.navbar,
   },
+  header: {
+    color: colors.white,
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  subHeader: {
+    color: colors.white,
+    fontSize: 20,
+  },
+  dateText: {
+    color: colors.white,
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  dateView: {
+    color: colors.light.accent,
+    borderColor: colors.white,
+    borderWidth: 5,
+  }
 });
 
 export default Events;
