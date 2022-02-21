@@ -1,5 +1,4 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image } from "react-native";
 import Events from "../views/Events";
 import Home from "../views/Home";
 import colors from "../../Colors";
