@@ -6,8 +6,8 @@ const colors = {
     accent: "#C9D4DD",
     navbar: "#506E86"
   },
-  white: "#000000",
-  black: "#FFFFFF",
+  black: "#000000",
+  white: "#FFFFFF",
   blue: "#006AC4",
   iceblue: "#C3FFFF",
   yellow: "#FFEB00",
