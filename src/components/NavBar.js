@@ -24,7 +24,7 @@ const NavBar = (props) => {
           tabBarIcon: ({focused}) => {
             return (
               <Sun
-                color={focused ? colors.light.accent : colors.white}
+                color={!focused ? colors.light.accent : colors.white}
                 size="65%"
               />
             );
@@ -38,7 +38,7 @@ const NavBar = (props) => {
           tabBarIcon: ({focused}) => {
             return (
               <Calendar
-                color={focused ? colors.light.accent : colors.white}
+                color={!focused ? colors.light.accent : colors.white}
                 size="65%"
               />
             );

@@ -183,9 +183,9 @@ const styles = StyleSheet.create({
     left: 50,
   },
   listEventName: {
-    paddingTop: 14,
+    paddingTop: 15,
     color: colors.light.accent,
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "bold",
     position: "absolute",
     left: 70,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
   umbrella: {
     position: "absolute",
-    right: 50,
+    right: 55,
     top: 5,
   },
   rainChance: {
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     position: "absolute",
-    right: 8,
+    right: 2,
   },
 });
 

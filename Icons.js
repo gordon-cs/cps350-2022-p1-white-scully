@@ -200,7 +200,8 @@ const ParseConditionForIcon = (conditionString) => {
   } else if (
     conditionString.indexOf("Overcast") != -1 ||
     conditionString.indexOf("Cloudy") != -1 ||
-    conditionString.indexOf("Fog") != -1
+    conditionString.indexOf("Fog") != -1 ||
+    conditionString.indexOf("Mist") != -1
   ) {
     return <Cloud color={colors.white} size={30} />;
   } else if (
