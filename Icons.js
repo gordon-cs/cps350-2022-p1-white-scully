@@ -190,7 +190,7 @@ const Wind = (props) => {
 
 const ParseConditionForIcon = (conditionString) => {
   if (conditionString.indexOf("Clear") != -1) {
-    return <Moon color={colors.black} size={30} />;
+    return <Moon color={colors.blue} size={30} />;
   } else if (
     conditionString.indexOf("rain") != -1 ||
     conditionString.indexOf("Rain") != -1

@@ -19,7 +19,7 @@ const NavBar = (props) => {
     >
       <Tab.Screen
         name="Home"
-        children={() => <Home localWeatherData={props.localWeatherData} />}
+        children={() => <Home weather={props.localWeatherData} />}
         options={{
           tabBarIcon: ({focused}) => {
             return (

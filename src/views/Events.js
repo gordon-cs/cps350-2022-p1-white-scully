@@ -15,18 +15,19 @@ import {
   CollapseBody,
 } from "accordion-collapse-react-native";
 
-import { ParseConditionForIcon, Snowflake, Umbrella } from "../../Icons";
+import { ParseConditionForIcon, Umbrella } from "../../Icons";
 
 const Events = (props) => {
   let content = props.events.map((e) => (
     <EventListItem events={e} key={"Event" + e[3]} />
   ));
 
-  // console.log(props.events[0][1]);
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
+        <Text style={{ color: colors.white, fontSize: 15 }}>
+          Gordon Events Weather
+        </Text>
         <Text style={{ color: colors.white, fontSize: 30, fontWeight: "bold" }}>
           Gordon College
         </Text>
