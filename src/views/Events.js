@@ -8,19 +8,21 @@ import {
   Image,
 } from "react-native";
 import colors from "../../Colors";
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Collapse,
   CollapseHeader,
   CollapseBody,
 } from "accordion-collapse-react-native";
-import react from "react";
+
+import { ParseConditionForIcon, Snowflake, Umbrella } from "../../Icons";
+
 const Events = (props) => {
   let content = props.events.map((e) => (
     <EventListItem events={e} key={"Event" + e[3]} />
   ));
 
-  console.log(props.events[0][0]);
+  // console.log(props.events[0][1]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,7 +57,10 @@ const Events = (props) => {
 const EventListItem = (props) => {
   const [expanded, setExpanded] = useState(false);
   return (
-    <Collapse isExpanded={expanded} onToggle= {(isExpanded) => setExpanded(isExpanded)}>
+    <Collapse
+      isExpanded={expanded}
+      onToggle={(isExpanded) => setExpanded(isExpanded)}
+    >
       <CollapseHeader>
         <View style={styles.listHeader}>
           <Text style={styles.listDay}>
@@ -68,28 +73,37 @@ const EventListItem = (props) => {
           <Text style={styles.listEventName}>{props.events[0].Event_Name}</Text>
           <View style={styles.chevron}>
             <Image
-              source={expanded ? require("../../assets/icons/png/upward-chevron.png") : require("../../assets/icons/png/downward-chevron.png")}
+              source={
+                expanded
+                  ? require("../../assets/icons/png/upward-chevron.png")
+                  : require("../../assets/icons/png/downward-chevron.png")
+              }
             />
           </View>
         </View>
       </CollapseHeader>
       <CollapseBody>
         <View style={styles.listBody}>
-          <Text>Ta daa!</Text>
+          <View style={{ position: "absolute", left: 10, top: 10 }}>
+            {ParseConditionForIcon(props.events[1].condition.text)}
+          </View>
         </View>
+        <Text style={styles.listTemperature}>{props.events[1].temp_f} °F</Text>
+        <View style={styles.umbrella}>
+          <Umbrella color={colors.blue} size={40} />
+        </View>
+        <View style={styles.umbrella}>
+          <Umbrella color={colors.blue} size={40} />
+        </View>
+        <Text style={styles.rainChance}>
+          {props.events[1].chance_of_rain > props.events[1].chance_of_snow
+            ? props.events[1].chance_of_rain
+            : props.events[1].chance_of_snow}
+          %
+        </Text>
       </CollapseBody>
     </Collapse>
   );
-  // return (
-  //   <View>
-  //     <Text>Name of Event: {props.events[0].Event_Name}</Text>
-  //     <Text>Date of Event: {props.events[1].time} {props.events[2].weekdayShort}</Text>
-  //     <Text>
-  //       Temperature: {props.events[1].temp_f}°F Weather Condition:{" "}
-  //       {props.events[1].condition.text}{" "}
-  //     </Text>
-  //   </View>
-  // );
 };
 
 // Annoying object for translating month to text
@@ -138,8 +152,6 @@ const styles = StyleSheet.create({
     borderColor: colors.white,
     borderWidth: 1,
     height: 50,
-    flexDirection: "row",
-    width: "100%",
   },
   listBody: {
     backgroundColor: colors.light.accent,
@@ -151,7 +163,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     position: "absolute",
-    left: 10
+    left: 10,
   },
   listDayOfWeek: {
     paddingTop: 14,
@@ -159,7 +171,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     position: "absolute",
-    left: 35
+    left: 35,
+  },
+  listTemperature: {
+    top: 12,
+    color: colors.white,
+    fontSize: 20,
+    fontWeight: "bold",
+    position: "absolute",
+    left: 50,
   },
   listEventName: {
     paddingTop: 14,
@@ -171,7 +191,20 @@ const styles = StyleSheet.create({
   },
   chevron: {
     position: "absolute",
-    right: 10
+    right: 10,
+  },
+  umbrella: {
+    position: "absolute",
+    right: 50,
+    top: 5,
+  },
+  rainChance: {
+    top: 12,
+    color: colors.blue,
+    fontSize: 20,
+    fontWeight: "bold",
+    position: "absolute",
+    right: 8,
   },
 });
 
