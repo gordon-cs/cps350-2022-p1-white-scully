@@ -33,7 +33,7 @@ const NavBar = (props) => {
       />
       <Tab.Screen
         name="Events"
-        children={() => <Events events={props.events} />}
+        children={() => <Events events={props.events} dateRange={props.dateRange} />}
         options={{
           tabBarIcon: ({focused}) => {
             return (

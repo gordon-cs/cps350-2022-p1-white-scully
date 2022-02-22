@@ -16,6 +16,7 @@ const App = () => {
   const [localWeatherData, setLocalWeatherData] = useState({});
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [dateRange, setDateRange] = useState([]);
 
   useEffect(() => {
     const EventWeatherCall = async () => {
@@ -30,8 +31,15 @@ const App = () => {
       // Set each Gordon event with its corresponding weather
 
       // Get the 9 day period we are able to pull weather for
-      const now = DateTime.now();
-      const then = DateTime.now().plus({ days: 9 });
+      let tmpDateRange = [];
+      
+      for (let i = 0; i < 10; i++) {
+        tmpDateRange.push(DateTime.now().plus({ days: i}));
+      }
+      const now = tmpDateRange[0];
+      const then = tmpDateRange[9];
+
+      setDateRange(tmpDateRange);
 
       // Filter the events to fit between the 9 day period
       const eventData = tempEvents.filter(
@@ -45,8 +53,8 @@ const App = () => {
       // Loop through the events and match their times with the weather times
       for (let i = 0; i < eventData.length; i++) {
         // Get the start time of the event in seconds from epoch
-        let startTime =
-          new Date(eventData[i].Occurrences[0].StartDate).getTime() / 1000;
+        let startDate = new Date(eventData[i].Occurrences[0].StartDate)
+        let startTime = startDate.getTime() / 1000;
 
         // Loop through the weather object to find matching epoch
         for (
@@ -65,7 +73,7 @@ const App = () => {
             if (thirtyBefore < startTime && startTime <= thirtyAfter) {
               
               // Put "i" into array to have a unique key when developing list
-              gordonEvents.push([eventData[i], hourWeather, i]);
+              gordonEvents.push([eventData[i], hourWeather, DateTime.fromJSDate(startDate, "local"), i]);
             }
           }
         }
@@ -89,7 +97,7 @@ const App = () => {
   } else {
     return (
       <NavigationContainer>
-        <NavBar localWeatherData={localWeatherData} events={events} />
+        <NavBar localWeatherData={localWeatherData} events={events} dateRange={dateRange} />
         <StatusBar style="auto" />
       </NavigationContainer>
     );
@@ -97,22 +105,6 @@ const App = () => {
 };
 
 
-
-// Annoying object for translating month to text
-const NumToMonth = {
-  0: "January",
-  1: "February",
-  2: "March",
-  3: "April",
-  4: "May",
-  5: "June",
-  6: "July",
-  7: "August",
-  8: "September",
-  9: "October",
-  10: "November",
-  11: "December",
-}
 
 
 const styles = StyleSheet.create({

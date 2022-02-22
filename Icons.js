@@ -1,5 +1,6 @@
 import React from "react";
 import Svg, { Path, Circle } from "react-native-svg"
+import { Image } from 'react-native';
 
 // This is a helper file to convert svg to JSX fragment so that they are able to be used better with the project
 // NOT WORKING CURRENTLY, LEAVING HERE FOR REFERENCE
@@ -185,6 +186,24 @@ const Wind = (props) => {
       <Path d="M0 12a1 1 0 011-1h6a1 1 0 010 2H1a1 1 0 01-1-1zm20.886-.893A4.99 4.99 0 1012 8a1 1 0 002 0 3 3 0 113 3h-6a1 1 0 000 2h9a2 2 0 012 2c-.009 2.337-3.281 2.648-4.057.667a1 1 0 00-1.886.666C17.615 20.415 23.952 19.579 24 15a4 4 0 00-3.114-3.893zM11 16H1a1 1 0 000 2h10a2 2 0 012 2c-.009 2.337-3.281 2.648-4.057.667a1 1 0 10-1.886.666C8.615 25.415 14.952 24.579 15 20a4 4 0 00-4-4zM1 8h6a4 4 0 004-4c-.048-4.581-6.387-5.414-7.943-1.333a1 1 0 001.886.666C5.72 1.351 8.991 1.663 9 4a2 2 0 01-2 2H1a1 1 0 000 2z"></Path>
     </Svg>
   );
+}
+
+const ParseConditionForIcon = (conditionString) => {
+  if (conditionString.indexOf("Clear") != -1) {
+    return Moon;
+  } else if (conditionString.indexOf("rain") != -1 || conditionString.indexOf("Rain") != -1) {
+    return Raindrops;
+  } else if (conditionString.indexOf("Overcast") != -1 || conditionString.indexOf("Cloudy") != -1) {
+    return Cloud;
+  } else if (conditionString.indexOf("Snow") != -1 || conditionString.indexOf("snow") != -1) {
+    return Snowflake;
+  } else if (conditionString.indexOf("Sun") != -1) {
+    return Sun;
+  } else if (conditionString.indexOf("Partly cloudy") != -1) {
+    return (
+      <Image source={require("./assets/icons/png/partly-cloudy.png")} />
+    )
+  }
 }
 
 export {
