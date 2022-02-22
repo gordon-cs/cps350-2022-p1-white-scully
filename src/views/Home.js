@@ -6,11 +6,35 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
-import { borderLeftColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import { DateTime } from "luxon";
 import colors from "../../Colors";
 import { ParseConditionForIcon } from "../../Icons";
 
 const Home = (props) => {
+  let hourlyWeather = [];
+  for (let i = 0; i < 2; i++) {
+    for (let j = 0; j < 24; j++) {
+      if (
+        props.weather.forecast.forecastday[i].hour[j].time_epoch >
+          props.today.toSeconds() &&
+        props.weather.forecast.forecastday[i].hour[j].time_epoch <
+          props.today.plus({ hours: 12 }).toSeconds()
+      ) {
+        hourlyWeather.push([
+          props.weather.forecast.forecastday[i].hour[j],
+          DateTime.fromSeconds(
+            props.weather.forecast.forecastday[i].hour[j].time_epoch
+          ),
+          "day: " + i + " " + "hour: " + j,
+        ]);
+      }
+    }
+  }
+
+  let content = hourlyWeather.map((d) => (
+    <WeatherList weather={d[0]} time={d[1]} key={d[2]} />
+  ));
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -127,11 +151,11 @@ const Home = (props) => {
               bottom: "11%",
               justifyContent: "center",
               alignItems: "center",
-              width: "69%" /*not a meme, actuality*/,
+              width: "75%",
             }}
           >
             <Text
-              style={{ color: colors.white, fontSize: 25, fontWeight: "bold" }}
+              style={{ color: colors.white, fontSize: 20, fontWeight: "bold" }}
             >
               {props.weather.current.condition.text}
             </Text>
@@ -142,10 +166,70 @@ const Home = (props) => {
             height: 2,
             width: 250,
             backgroundColor: colors.white,
+            marginBottom: 10,
           }}
         ></View>
+        <Text
+          style={{
+            fontWeight: "bold",
+            color: colors.white,
+            fontSize: 25,
+            marginBottom: 10,
+          }}
+        >
+          {props.today.weekdayLong}, {props.today.monthShort}. {props.today.day}
+        </Text>
+        <View
+          style={{
+            borderColor: colors.white,
+            borderRadius: 15,
+            borderWidth: 2,
+            width: 250,
+            paddingTop: 10,
+            paddingBottom: 10,
+            marginBottom: 10
+          }}
+        >
+          {content}
+        </View>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const WeatherList = (props) => {
+  return (
+    <View
+      style={{
+        position: "relative",
+        left: 10,
+        height: 40,
+        width: 225,
+        borderColor: colors.white,
+        borderBottomWidth: 2,
+        justifyContent: "center",
+      }}
+    >
+      <Text
+        style={{ fontSize: 16, fontWeight: "bold", color: colors.light.navbar }}
+      >
+        {props.time.hour == 12
+          ? 12 + " pm"
+          : props.time.hour == 0
+          ? 12 + " am"
+          : props.time.hour > 12
+          ? (props.time.hour % 12) + " pm"
+          : props.time.hour + " am"}
+      </Text>
+      <View style={{ position: "absolute", right: 50 }}>
+        {ParseConditionForIcon(props.weather.condition.text)}
+      </View>
+      <Text
+        style={{ fontSize: 16, fontWeight: "bold", color: colors.white, position: "absolute", right: 12 }}
+      >
+        {Math.round(props.weather.temp_f)}
+      </Text>
+    </View>
   );
 };
 

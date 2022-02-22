@@ -193,12 +193,14 @@ const ParseConditionForIcon = (conditionString) => {
     return <Moon color={colors.blue} size={30} />;
   } else if (
     conditionString.indexOf("rain") != -1 ||
-    conditionString.indexOf("Rain") != -1
+    conditionString.indexOf("Rain") != -1 ||
+    conditionString.indexOf("drizzle") != -1
   ) {
     return <Raindrops color={colors.blue} size={30} />;
   } else if (
     conditionString.indexOf("Overcast") != -1 ||
-    conditionString.indexOf("Cloudy") != -1
+    conditionString.indexOf("Cloudy") != -1 ||
+    conditionString.indexOf("Fog") != -1
   ) {
     return <Cloud color={colors.white} size={30} />;
   } else if (
@@ -213,6 +215,8 @@ const ParseConditionForIcon = (conditionString) => {
     return <Sun color={colors.yellow} size={30} />;
   } else if (conditionString.indexOf("Partly cloudy") != -1) {
     return <Image source={require("./assets/icons/png/partly-cloudy.png")} />;
+  } else if (conditionString.indexOf("Wind") != -1 || conditionString.indexOf("wind") != -1) {
+    return <Wind color={colors.white} size={30} />;
   }
 };
 

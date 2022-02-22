@@ -13,7 +13,7 @@ import colors from "./Colors";
 import NavBar from "./src/components/NavBar";
 
 const App = () => {
-  const [localWeatherData, setLocalWeatherData] = useState({});
+  const [weatherData, setWeatherData] = useState({});
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState([]);
@@ -79,7 +79,7 @@ const App = () => {
         }
       }
 
-      setLocalWeatherData(localWeather);
+      setWeatherData(localWeather);
       setEvents(gordonEvents);
       setLoading(false);
     };
@@ -97,7 +97,7 @@ const App = () => {
   } else {
     return (
       <NavigationContainer>
-        <NavBar localWeatherData={localWeatherData} events={events} dateRange={dateRange} />
+        <NavBar currentWeather={weatherData} events={events} dateRange={dateRange} />
         <StatusBar style="auto" />
       </NavigationContainer>
     );
