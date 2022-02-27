@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { DateTime } from "luxon";
 import { NavigationContainer } from "@react-navigation/native";
-
+import * as Device from "expo-device";
 import { getPublicEvents } from "./src/services/EventService";
 import {
   getWeatherLocal,
@@ -16,7 +16,8 @@ const App = () => {
   const [weatherData, setWeatherData] = useState({});
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [dateRange, setDateRange] = useState([]);
+  const [gordonDateRange, setGordonDateRange] = useState([]);
+  const [localDateRange, setLocalDateRange] = useState([]);
 
   useEffect(() => {
     const EventWeatherCall = async () => {
@@ -29,17 +30,34 @@ const App = () => {
       const gordonWeather = await getWeatherWenham();
 
       // Set each Gordon event with its corresponding weather
-
       // Get the 9 day period we are able to pull weather for
-      let tmpDateRange = [];
-      
-      for (let i = 0; i < 10; i++) {
-        tmpDateRange.push(DateTime.now().plus({ days: i}));
-      }
-      const now = tmpDateRange[0];
-      const then = tmpDateRange[9];
+      let tmpGordonDateRange = [];
+      let tmpLocalDateRange = [];
 
-      setDateRange(tmpDateRange);
+      let gordonToday;
+      let locationToday;
+
+      // Android cannot take full advantage of one of my packages unless I eject the project
+      // to its native files so I am able to add the latest android build to the build.gradle
+      // file
+      if (Device.manufacturer == "Apple") {
+        gordonToday = DateTime.now().setZone("America/New_York");
+        locationToday = DateTime.now().setZone(localWeather.location.tz_id);
+      } else {
+        gordonToday = DateTime.now();
+        locationToday = DateTime.now();
+      }
+
+      for (let i = 0; i < 10; i++) {
+        tmpGordonDateRange.push(gordonToday.plus({ days: i }));
+        tmpLocalDateRange.push(locationToday.plus({ days: i }));
+      }
+
+      const now = tmpGordonDateRange[0];
+      const then = tmpGordonDateRange[9];
+
+      setLocalDateRange(tmpLocalDateRange);
+      setGordonDateRange(tmpGordonDateRange);
 
       // Filter the events to fit between the 9 day period
       const eventData = tempEvents.filter(
@@ -53,7 +71,7 @@ const App = () => {
       // Loop through the events and match their times with the weather times
       for (let i = 0; i < eventData.length; i++) {
         // Get the start time of the event in seconds from epoch
-        let startDate = new Date(eventData[i].Occurrences[0].StartDate)
+        let startDate = new Date(eventData[i].Occurrences[0].StartDate);
         let startTime = startDate.getTime() / 1000;
 
         // Loop through the weather object to find matching epoch
@@ -71,9 +89,13 @@ const App = () => {
             let thirtyAfter = hourWeather.time_epoch + 30 * 60;
 
             if (thirtyBefore < startTime && startTime <= thirtyAfter) {
-              
               // Put "i" into array to have a unique key when developing list
-              gordonEvents.push([eventData[i], hourWeather, DateTime.fromJSDate(startDate, "local"), i]);
+              gordonEvents.push([
+                eventData[i],
+                hourWeather,
+                DateTime.fromJSDate(startDate, "local"),
+                i,
+              ]);
             }
           }
         }
@@ -97,15 +119,17 @@ const App = () => {
   } else {
     return (
       <NavigationContainer>
-        <NavBar currentWeather={weatherData} events={events} dateRange={dateRange} />
+        <NavBar
+          currentWeather={weatherData}
+          events={events}
+          gordonDateRange={gordonDateRange}
+          localDateRange={localDateRange}
+        />
         <StatusBar style="auto" />
       </NavigationContainer>
     );
   }
 };
-
-
-
 
 const styles = StyleSheet.create({
   container: {

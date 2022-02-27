@@ -5,13 +5,19 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
+  Image,
 } from "react-native";
-import { DateTime } from "luxon";
 import colors from "../../Colors";
-import { ParseConditionForIcon } from "../../Icons";
+import {
+  ParseConditionForIcon,
+  ThermometerHalf,
+  Umbrella,
+  Wind,
+} from "../../Icons";
 
 const Home = (props) => {
   let hourlyWeather = [];
+  let hourCount = 1;
   for (let i = 0; i < 2; i++) {
     for (let j = 0; j < 24; j++) {
       if (
@@ -22,11 +28,10 @@ const Home = (props) => {
       ) {
         hourlyWeather.push([
           props.weather.forecast.forecastday[i].hour[j],
-          DateTime.fromSeconds(
-            props.weather.forecast.forecastday[i].hour[j].time_epoch
-          ),
+          props.today.plus({ hours: hourCount }),
           "day: " + i + " " + "hour: " + j,
         ]);
+        hourCount++;
       }
     }
   }
@@ -79,16 +84,18 @@ const Home = (props) => {
             {props.weather.location.region}
           </Text>
         </View>
-        <View style={{ width: 200, height: 200 }}>
+        <View style={{ width: 250, height: 200 }}>
           <Text
             style={{
               color: colors.white,
               fontWeight: "400",
-              fontSize: 125,
+              fontSize: 140,
               alignSelf: "flex-start",
             }}
           >
-            {Math.round(props.weather.current.temp_f)}
+            {props.weather.current.tempf < 0
+              ? Math.round(props.weather.current.temp_f)
+              : " " + Math.round(props.weather.current.temp_f)}
           </Text>
           <View
             style={{
@@ -148,14 +155,15 @@ const Home = (props) => {
           <View
             style={{
               position: "absolute",
-              bottom: "11%",
+              bottom: "15%",
               justifyContent: "center",
               alignItems: "center",
               width: "75%",
+              left: "3%",
             }}
           >
             <Text
-              style={{ color: colors.white, fontSize: 20, fontWeight: "bold" }}
+              style={{ color: colors.white, fontSize: 25, fontWeight: "bold" }}
             >
               {props.weather.current.condition.text}
             </Text>
@@ -187,10 +195,183 @@ const Home = (props) => {
             width: 250,
             paddingTop: 10,
             paddingBottom: 10,
-            marginBottom: 10
+            marginBottom: 10,
           }}
         >
           {content}
+        </View>
+        <View style={{ paddingTop: 10, width: 250, height: 350 }}>
+          <View
+            style={{ position: "absolute", top: "3%", left: "4%", zIndex: 1 }}
+          >
+            <Umbrella color={colors.blue} size={50} />
+          </View>
+          <Text
+            style={{
+              color: colors.light.navbar,
+              fontWeight: "bold",
+              position: "absolute",
+              left: "22%",
+              top: "2%",
+            }}
+          >
+            Precipitation
+          </Text>
+          <View
+            style={{
+              backgroundColor: colors.light.accent,
+              borderRadius: 15,
+              alignItems: "center",
+              justifyContent: "center",
+              width: "75%",
+              height: "7%",
+              position: "absolute",
+              top: "8%",
+            }}
+          >
+            <Text style={styles.PWHSText}>
+              {props.weather.forecast.forecastday[0].day.daily_chance_of_rain >
+              props.weather.forecast.forecastday[0].day.daily_chance_of_snow
+                ? props.weather.forecast.forecastday[0].day.daily_chance_of_rain
+                : props.weather.forecast.forecastday[0].day
+                    .daily_chance_of_snow}
+              %
+            </Text>
+          </View>
+
+          <View
+            style={{ position: "absolute", top: "20%", right: "4%", zIndex: 1 }}
+          >
+            <Wind color={colors.white} size={50} />
+          </View>
+          <Text
+            style={{
+              color: colors.light.navbar,
+              fontWeight: "bold",
+              position: "absolute",
+              right: "34%",
+              top: "20%",
+            }}
+          >
+            Wind
+          </Text>
+          <View
+            style={{
+              backgroundColor: colors.light.accent,
+              borderRadius: 15,
+              alignItems: "center",
+              justifyContent: "center",
+              width: "75%",
+              height: "7%",
+              position: "absolute",
+              top: "25%",
+              right: "2%",
+            }}
+          >
+            <Text style={styles.PWHSText}>
+              {props.weather.current.wind_mph} mph
+            </Text>
+          </View>
+
+          <View
+            style={{ position: "absolute", top: "38%", left: "4%", zIndex: 1 }}
+          >
+            <ThermometerHalf color={colors.black} size={50} />
+          </View>
+          <Text
+            style={{
+              color: colors.light.navbar,
+              fontWeight: "bold",
+              position: "absolute",
+              left: "24%",
+              top: "37%",
+            }}
+          >
+            Humidity
+          </Text>
+          <View
+            style={{
+              backgroundColor: colors.light.accent,
+              borderRadius: 15,
+              alignItems: "center",
+              justifyContent: "center",
+              width: "75%",
+              height: "7%",
+              position: "absolute",
+              top: "43%",
+            }}
+          >
+            <Text style={styles.PWHSText}>
+              {props.weather.current.humidity} %
+            </Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: colors.light.accent,
+              height: "28%",
+              width: "100%",
+              position: "absolute",
+              bottom: "15%",
+              borderRadius: 15,
+            }}
+          >
+            <Image
+              source={require("../../assets/icons/png/sunset.png")}
+              style={{ position: "absolute", top: "-85%" }}
+            />
+            <Text
+              style={{
+                position: "absolute",
+                top: "12%",
+                right: "38%",
+                color: colors.light.navbar,
+                fontWeight: "bold",
+              }}
+            >
+              Sun Set
+            </Text>
+            <Text
+              style={{
+                position: "absolute",
+                top: "8%",
+                right: "3%",
+                color: colors.light.navbar,
+                fontWeight: "bold",
+                fontSize: 30,
+              }}
+            >
+              {props.weather.forecast.forecastday[0].astro.sunset.substring(
+                0,
+                5
+              )}
+            </Text>
+            <Text
+              style={{
+                position: "absolute",
+                bottom: "12%",
+                left: "38%",
+                color: colors.light.navbar,
+                fontWeight: "bold",
+              }}
+            >
+              Sun Rise
+            </Text>
+            <Text
+              style={{
+                position: "absolute",
+                bottom: "8%",
+                left: "3%",
+                color: colors.light.navbar,
+                fontWeight: "bold",
+                fontSize: 30,
+              }}
+            >
+              {props.weather.forecast.forecastday[0].astro.sunrise.substring(
+                0,
+                5
+              )}
+            </Text>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -225,7 +406,13 @@ const WeatherList = (props) => {
         {ParseConditionForIcon(props.weather.condition.text)}
       </View>
       <Text
-        style={{ fontSize: 16, fontWeight: "bold", color: colors.white, position: "absolute", right: 12 }}
+        style={{
+          fontSize: 16,
+          fontWeight: "bold",
+          color: colors.white,
+          position: "absolute",
+          right: 12,
+        }}
       >
         {Math.round(props.weather.temp_f)}
       </Text>
@@ -244,6 +431,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
+  },
+  PWHSText: {
+    color: colors.light.navbar,
+    fontWeight: "bold",
   },
 });
 
