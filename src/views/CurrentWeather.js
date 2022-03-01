@@ -163,7 +163,7 @@ const CurrentWeather = (props) => {
             }}
           >
             <Text
-              style={{ color: colors.white, fontSize: 25, fontWeight: "bold" }}
+              style={{ color: colors.white, fontSize: 20, fontWeight: "bold" }}
             >
               {props.weather.current.condition.text}
             </Text>

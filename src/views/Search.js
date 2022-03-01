@@ -5,7 +5,7 @@ import {
   View,
   Keyboard,
   TextInput,
-  Text
+  Text,
 } from "react-native";
 import { getWeatherSearch } from "../services/WeatherService";
 import { useState } from "react";
@@ -28,7 +28,7 @@ const Search = (props) => {
     if (searchLocation) {
       let tmpWeather = await getWeatherSearch(searchLocation);
       let locationToday;
-      if (typeof tmpWeather.error === 'undefined') {
+      if (typeof tmpWeather.error === "undefined") {
         if (Device.manufacturer == "Apple") {
           locationToday = DateTime.now().setZone(tmpWeather.location.tz_id);
         } else {
@@ -51,7 +51,9 @@ const Search = (props) => {
 
   let content = search ? (
     <CurrentWeather weather={weather} today={today} />
-  ) : <Text>No location found</Text>;
+  ) : (
+    <Text>No location found</Text>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,6 +73,7 @@ const Search = (props) => {
           style={{
             fontWeight: "bold",
             marginLeft: "3%",
+            width: "75%",
           }}
           value={searchLocation}
           placeholder={"Search a Location"}
