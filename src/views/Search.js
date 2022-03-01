@@ -83,7 +83,7 @@ const Search = (props) => {
           onSubmitEditing={handleSubmitLocation}
         />
       </View>
-      {loading ? null : content}
+      <View style={{ width: "100%", height: "100%" }}>{loading ? null : content}</View>
     </SafeAreaView>
   );
 };
