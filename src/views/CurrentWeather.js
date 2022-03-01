@@ -150,7 +150,7 @@ const CurrentWeather = (props) => {
               top: "70%",
             }}
           >
-            {ParseConditionForIcon(props.weather.current.condition.text)}
+            {ParseConditionForIcon(props.weather.current.condition.text, props.today.hour)}
           </View>
           <View
             style={{

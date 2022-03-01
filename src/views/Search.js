@@ -52,7 +52,7 @@ const Search = (props) => {
   let content = search ? (
     <CurrentWeather weather={weather} today={today} />
   ) : (
-    <Text>No location found</Text>
+    <Text style={{alignSelf: "center"}}>No location found</Text>
   );
 
   return (
@@ -83,7 +83,7 @@ const Search = (props) => {
           onSubmitEditing={handleSubmitLocation}
         />
       </View>
-      <View style={{ width: "100%", height: "100%" }}>{loading ? null : content}</View>
+      <View style={{ width: "100%", height: "90%", }}>{loading ? null : content}</View>
     </SafeAreaView>
   );
 };
