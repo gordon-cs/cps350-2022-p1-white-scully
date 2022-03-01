@@ -53,7 +53,7 @@ const Moon = (props) => {
   );
 };
 
-const Search = (props) => {
+const MagnifyingGlass = (props) => {
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +190,7 @@ const Wind = (props) => {
 
 const ParseConditionForIcon = (conditionString) => {
   if (conditionString.indexOf("Clear") != -1) {
-    return <Moon color={colors.blue} size={30} />;
+    return <Moon color={colors.black} size={30} />;
   } else if (
     conditionString.indexOf("rain") != -1 ||
     conditionString.indexOf("Rain") != -1 ||
@@ -225,7 +225,7 @@ export {
   Calendar,
   Cloud,
   Moon,
-  Search,
+  MagnifyingGlass,
   Raindrops,
   Settings,
   Snowflake,

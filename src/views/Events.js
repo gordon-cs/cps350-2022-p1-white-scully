@@ -57,6 +57,30 @@ const Events = (props) => {
 
 const EventListItem = (props) => {
   const [expanded, setExpanded] = useState(false);
+
+  let hour; let minute; let AMPM; const time = props.events[2];
+
+  if (time.hour == 12) {
+    hour = 12;
+    AMPM = "pm"
+  } else if (time.hour == 0) {
+    hour = 12;
+    AMPM = "am";
+  } else if (time.hour > 12) {
+    hour = time.hour % 12;
+    AMPM = "pm";
+  } else {
+    hour = time.hour;
+    AMPM = "am";
+  }
+
+  if (time.minute < 10) {
+    minute = "0" + time.minute;
+  } else {
+    minute = time.minute;
+  }
+
+  if (props.events)
   return (
     <Collapse
       isExpanded={expanded}
@@ -85,23 +109,38 @@ const EventListItem = (props) => {
       </CollapseHeader>
       <CollapseBody>
         <View style={styles.listBody}>
-          <View style={{ position: "absolute", left: 10, top: 10 }}>
+          <Text
+            style={{
+              color: colors.white,
+              fontSize: 20,
+              fontWeight: "bold",
+              position: "absolute",
+              top: 12,
+              left: 20
+            }}
+          >
+            {hour}:{minute} {AMPM}
+          </Text>
+          <View style={{ position: "absolute", left: 120, top: 10 }}>
             {ParseConditionForIcon(props.events[1].condition.text)}
           </View>
+
+          <Text style={styles.listTemperature}>
+            {props.events[1].temp_f} °F
+          </Text>
+          <View style={styles.umbrella}>
+            <Umbrella color={colors.blue} size={40} />
+          </View>
+          <View style={styles.umbrella}>
+            <Umbrella color={colors.blue} size={40} />
+          </View>
+          <Text style={styles.rainChance}>
+            {props.events[1].chance_of_rain > props.events[1].chance_of_snow
+              ? props.events[1].chance_of_rain
+              : props.events[1].chance_of_snow}
+            %
+          </Text>
         </View>
-        <Text style={styles.listTemperature}>{props.events[1].temp_f} °F</Text>
-        <View style={styles.umbrella}>
-          <Umbrella color={colors.blue} size={40} />
-        </View>
-        <View style={styles.umbrella}>
-          <Umbrella color={colors.blue} size={40} />
-        </View>
-        <Text style={styles.rainChance}>
-          {props.events[1].chance_of_rain > props.events[1].chance_of_snow
-            ? props.events[1].chance_of_rain
-            : props.events[1].chance_of_snow}
-          %
-        </Text>
       </CollapseBody>
     </Collapse>
   );
@@ -180,7 +219,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     position: "absolute",
-    left: 50,
+    left: 160,
   },
   listEventName: {
     paddingTop: 15,

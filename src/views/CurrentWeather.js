@@ -15,7 +15,7 @@ import {
   Wind,
 } from "../../Icons";
 
-const Home = (props) => {
+const CurrentWeather = (props) => {
   let hourlyWeather = [];
   let hourCount = 1;
   for (let i = 0; i < 2; i++) {
@@ -438,4 +438,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default CurrentWeather;

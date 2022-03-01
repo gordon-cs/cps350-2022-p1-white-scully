@@ -27,6 +27,18 @@ const getWeatherWenham = async () => {
 };
 
 /**
+ * Gets current weather for a given zipcode or location
+ *
+ * @param {String location}
+ * 
+ * @returns {Weather {}} the weather object containing the weather for ten days
+ */
+ const getWeatherSearch = async (location) => {
+  const weather = fetchWeather(location);
+  return weather;
+};
+
+/**
  * Helper method for fetching weather data from API with given latitude and longitude
  * 
  * @param {float} latitude the latitude of the location
@@ -42,4 +54,4 @@ const fetchWeather = async (latitude, longitude) => {
   return weather;
 };
 
-export { getWeatherLocal, getWeatherWenham };
+export { getWeatherLocal, getWeatherWenham, getWeatherSearch };

@@ -1,8 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Events from "../views/Events";
-import Home from "../views/Home";
+import CurrentWeather from "../views/CurrentWeather";
 import colors from "../../Colors";
-import { Calendar, Sun } from "../../Icons";
+import { Calendar, MagnifyingGlass, Sun } from "../../Icons";
+import Search from "../views/Search";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +20,7 @@ const NavBar = (props) => {
     >
       <Tab.Screen
         name="Home"
-        children={() => <Home weather={props.currentWeather} today={props.localDateRange[0]} />}
+        children={() => <CurrentWeather weather={props.currentWeather} today={props.localDateRange[0]} />}
         options={{
           tabBarIcon: ({focused}) => {
             return (
@@ -38,6 +39,20 @@ const NavBar = (props) => {
           tabBarIcon: ({focused}) => {
             return (
               <Calendar
+                color={!focused ? colors.light.accent : colors.white}
+                size="65%"
+              />
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        children={() => <Search />}
+        options={{
+          tabBarIcon: ({focused}) => {
+            return (
+              <MagnifyingGlass
                 color={!focused ? colors.light.accent : colors.white}
                 size="65%"
               />

@@ -36,14 +36,17 @@ const App = () => {
 
       let gordonToday;
       let locationToday;
+      let timeZone;
 
       // Android cannot take full advantage of one of my packages unless I eject the project
       // to its native files so I am able to add the latest android build to the build.gradle
       // file
       if (Device.manufacturer == "Apple") {
-        gordonToday = DateTime.now().setZone("America/New_York");
+        timeZone = "America/New_York";
+        gordonToday = DateTime.now().setZone(timeZone);
         locationToday = DateTime.now().setZone(localWeather.location.tz_id);
       } else {
+        timeZone = "local";
         gordonToday = DateTime.now();
         locationToday = DateTime.now();
       }
@@ -93,7 +96,7 @@ const App = () => {
               gordonEvents.push([
                 eventData[i],
                 hourWeather,
-                DateTime.fromJSDate(startDate, "local"),
+                DateTime.fromJSDate(startDate, timeZone),
                 i,
               ]);
             }
