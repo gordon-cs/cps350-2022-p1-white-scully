@@ -59,6 +59,7 @@ const Search = (props) => {
     <SafeAreaView style={styles.container}>
       <View
         style={{
+          marginTop: 10,
           marginBottom: 12,
           borderRadius: 15,
           backgroundColor: colors.light.accent,
