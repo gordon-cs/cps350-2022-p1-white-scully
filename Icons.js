@@ -188,7 +188,7 @@ const Wind = (props) => {
   );
 };
 
-const ParseConditionForIcon = (conditionString) => {
+const ParseConditionForIcon = (conditionString, hour) => {
   if (conditionString.indexOf("Clear") != -1) {
     return <Moon color={colors.black} size={30} />;
   } else if (
@@ -215,8 +215,17 @@ const ParseConditionForIcon = (conditionString) => {
   } else if (conditionString.indexOf("Sun") != -1) {
     return <Sun color={colors.yellow} size={30} />;
   } else if (conditionString.indexOf("Partly cloudy") != -1) {
-    return <Image source={require("./assets/icons/png/partly-cloudy.png")} />;
-  } else if (conditionString.indexOf("Wind") != -1 || conditionString.indexOf("wind") != -1) {
+    if (hour > 19 || hour < 7) {
+      return (
+        <Image source={require("./assets/icons/png/partly-cloudy-night.png")} />
+      );
+    } else {
+      return <Image source={require("./assets/icons/png/partly-cloudy.png")} />;
+    }
+  } else if (
+    conditionString.indexOf("Wind") != -1 ||
+    conditionString.indexOf("wind") != -1
+  ) {
     return <Wind color={colors.white} size={30} />;
   }
 };

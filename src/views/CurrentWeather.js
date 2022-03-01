@@ -403,7 +403,7 @@ const WeatherList = (props) => {
           : props.time.hour + " am"}
       </Text>
       <View style={{ position: "absolute", right: 50 }}>
-        {ParseConditionForIcon(props.weather.condition.text)}
+        {ParseConditionForIcon(props.weather.condition.text, props.time.hour)}
       </View>
       <Text
         style={{
