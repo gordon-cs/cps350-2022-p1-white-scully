@@ -36,6 +36,31 @@ const CurrentWeather = (props) => {
     }
   }
 
+  let hour;
+  let minute;
+  let AMPM;
+  const time = props.today;
+
+  if (time.hour == 12) {
+    hour = 12;
+    AMPM = "pm";
+  } else if (time.hour == 0) {
+    hour = 12;
+    AMPM = "am";
+  } else if (time.hour > 12) {
+    hour = time.hour % 12;
+    AMPM = "pm";
+  } else {
+    hour = time.hour;
+    AMPM = "am";
+  }
+
+  if (time.minute < 10) {
+    minute = "0" + time.minute;
+  } else {
+    minute = time.minute;
+  }
+
   let content = hourlyWeather.map((d) => (
     <WeatherList weather={d[0]} time={d[1]} key={d[2]} />
   ));
@@ -63,39 +88,60 @@ const CurrentWeather = (props) => {
             borderBottomWidth: 2,
             alignItems: "center",
             justifyContent: "center",
-            flexDirection: "row",
             flex: 1,
-            height: 25,
+            height: 40,
             width: 250,
           }}
         >
-          <Text
-            style={{ fontSize: 14, color: colors.white, fontWeight: "bold" }}
-          >
-            {props.weather.location.name}{" "}
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              color: colors.light.navbar,
-              fontWeight: "bold",
-            }}
-          >
-            {props.weather.location.region}
-          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={{ fontSize: 14, color: colors.white, fontWeight: "bold" }}
+            >
+              {props.weather.location.name}{" "}
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                color: colors.light.navbar,
+                fontWeight: "bold",
+              }}
+            >
+              {props.weather.location.region}
+            </Text>
+          </View>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={{ fontWeight: "bold", color: colors.white }}>
+              Local Time:
+            </Text>
+            <Text style={{ fontWeight: "bold", color: colors.light.navbar }}>
+              {" "}{hour}:{minute} {AMPM}
+            </Text>
+          </View>
         </View>
         <View style={{ width: 250, height: 200 }}>
           <Text
             style={{
               color: colors.white,
               fontWeight: "400",
-              fontSize: 140,
+              fontSize: 130,
               alignSelf: "flex-start",
             }}
           >
             {props.weather.current.tempf < 0
               ? Math.round(props.weather.current.temp_f)
               : " " + Math.round(props.weather.current.temp_f)}
+          </Text>
+          <Text
+            style={{
+              position: "absolute",
+              top: "15%",
+              right: "23%",
+              color: colors.white,
+              fontSize: 15,
+              fontWeight: "bold",
+            }}
+          >
+            °F
           </Text>
           <View
             style={{
@@ -150,7 +196,10 @@ const CurrentWeather = (props) => {
               top: "70%",
             }}
           >
-            {ParseConditionForIcon(props.weather.current.condition.text, props.today.hour)}
+            {ParseConditionForIcon(
+              props.weather.current.condition.text,
+              props.today.hour
+            )}
           </View>
           <View
             style={{
@@ -322,8 +371,8 @@ const CurrentWeather = (props) => {
             <Text
               style={{
                 position: "absolute",
-                top: "12%",
-                right: "38%",
+                bottom: "5%",
+                right: "4%",
                 color: colors.light.navbar,
                 fontWeight: "bold",
               }}
@@ -334,22 +383,39 @@ const CurrentWeather = (props) => {
               style={{
                 position: "absolute",
                 top: "8%",
-                right: "3%",
+                right: "10%",
                 color: colors.light.navbar,
                 fontWeight: "bold",
                 fontSize: 30,
               }}
             >
-              {props.weather.forecast.forecastday[0].astro.sunset.substring(
-                0,
-                5
-              )}
+              {props.weather.forecast.forecastday[0].astro.sunset[0] != 0
+                ? props.weather.forecast.forecastday[0].astro.sunset.substring(
+                    0,
+                    5
+                  )
+                : props.weather.forecast.forecastday[0].astro.sunset.substring(
+                    1,
+                    5
+                  )}
             </Text>
             <Text
               style={{
                 position: "absolute",
-                bottom: "12%",
-                left: "38%",
+                top: "23%",
+                right: "0%",
+                color: colors.light.navbar,
+                fontWeight: "bold",
+                fontSize: 15,
+              }}
+            >
+              pm
+            </Text>
+            <Text
+              style={{
+                position: "absolute",
+                top: "5%",
+                left: "5%",
                 color: colors.light.navbar,
                 fontWeight: "bold",
               }}
@@ -366,10 +432,27 @@ const CurrentWeather = (props) => {
                 fontSize: 30,
               }}
             >
-              {props.weather.forecast.forecastday[0].astro.sunrise.substring(
-                0,
-                5
-              )}
+              {props.weather.forecast.forecastday[0].astro.sunrise[0] != 0
+                ? props.weather.forecast.forecastday[0].astro.sunrise.substring(
+                    0,
+                    5
+                  )
+                : props.weather.forecast.forecastday[0].astro.sunrise.substring(
+                    1,
+                    5
+                  )}
+            </Text>
+            <Text
+              style={{
+                position: "absolute",
+                bottom: "12%",
+                left: "30%",
+                color: colors.light.navbar,
+                fontWeight: "bold",
+                fontSize: 15,
+              }}
+            >
+              am
             </Text>
           </View>
         </View>
@@ -402,7 +485,7 @@ const WeatherList = (props) => {
           ? (props.time.hour % 12) + " pm"
           : props.time.hour + " am"}
       </Text>
-      <View style={{ position: "absolute", right: 50 }}>
+      <View style={{ position: "absolute", right: 55 }}>
         {ParseConditionForIcon(props.weather.condition.text, props.time.hour)}
       </View>
       <Text
@@ -411,10 +494,10 @@ const WeatherList = (props) => {
           fontWeight: "bold",
           color: colors.white,
           position: "absolute",
-          right: 12,
+          right: 2,
         }}
       >
-        {Math.round(props.weather.temp_f)}
+        {Math.round(props.weather.temp_f)} °F
       </Text>
     </View>
   );

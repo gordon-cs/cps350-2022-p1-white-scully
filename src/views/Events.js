@@ -58,11 +58,14 @@ const Events = (props) => {
 const EventListItem = (props) => {
   const [expanded, setExpanded] = useState(false);
 
-  let hour; let minute; let AMPM; const time = props.events[2];
+  let hour;
+  let minute;
+  let AMPM;
+  const time = props.events[2];
 
   if (time.hour == 12) {
     hour = 12;
-    AMPM = "pm"
+    AMPM = "pm";
   } else if (time.hour == 0) {
     hour = 12;
     AMPM = "am";
@@ -81,69 +84,71 @@ const EventListItem = (props) => {
   }
 
   if (props.events)
-  return (
-    <Collapse
-      isExpanded={expanded}
-      onToggle={(isExpanded) => setExpanded(isExpanded)}
-    >
-      <CollapseHeader>
-        <View style={styles.listHeader}>
-          <Text style={styles.listDay}>
-            {props.events[2].day < 10 ? " " : ""}
-            {props.events[2].day}
-          </Text>
-          <Text style={styles.listDayOfWeek}>
-            {props.events[2].weekdayShort}
-          </Text>
-          <Text style={styles.listEventName}>{props.events[0].Event_Name}</Text>
-          <View style={styles.chevron}>
-            <Image
-              source={
-                expanded
-                  ? require("../../assets/icons/png/upward-chevron.png")
-                  : require("../../assets/icons/png/downward-chevron.png")
-              }
-            />
+    return (
+      <Collapse
+        isExpanded={expanded}
+        onToggle={(isExpanded) => setExpanded(isExpanded)}
+      >
+        <CollapseHeader>
+          <View style={styles.listHeader}>
+            <Text style={styles.listDay}>
+              {props.events[2].day < 10 ? " " : ""}
+              {props.events[2].day}
+            </Text>
+            <Text style={styles.listDayOfWeek}>
+              {props.events[2].weekdayShort}
+            </Text>
+            <Text style={styles.listEventName}>
+              {props.events[0].Event_Name}
+            </Text>
+            <View style={styles.chevron}>
+              <Image
+                source={
+                  expanded
+                    ? require("../../assets/icons/png/upward-chevron.png")
+                    : require("../../assets/icons/png/downward-chevron.png")
+                }
+              />
+            </View>
           </View>
-        </View>
-      </CollapseHeader>
-      <CollapseBody>
-        <View style={styles.listBody}>
-          <Text
-            style={{
-              color: colors.white,
-              fontSize: 20,
-              fontWeight: "bold",
-              position: "absolute",
-              top: 12,
-              left: 20
-            }}
-          >
-            {hour}:{minute} {AMPM}
-          </Text>
-          <View style={{ position: "absolute", left: 120, top: 10 }}>
-            {ParseConditionForIcon(props.events[1].condition.text)}
-          </View>
+        </CollapseHeader>
+        <CollapseBody>
+          <View style={styles.listBody}>
+            <Text
+              style={{
+                color: colors.white,
+                fontSize: 20,
+                fontWeight: "bold",
+                position: "absolute",
+                top: 12,
+                left: 20,
+              }}
+            >
+              {hour}:{minute} {AMPM}
+            </Text>
+            <View style={{ position: "absolute", left: 120, top: 10 }}>
+              {ParseConditionForIcon(props.events[1].condition.text)}
+            </View>
 
-          <Text style={styles.listTemperature}>
-            {props.events[1].temp_f} °F
-          </Text>
-          <View style={styles.umbrella}>
-            <Umbrella color={colors.blue} size={40} />
+            <Text style={styles.listTemperature}>
+              {props.events[1].temp_f} °F
+            </Text>
+            <View style={styles.umbrella}>
+              <Umbrella color={colors.blue} size={40} />
+            </View>
+            <View style={styles.umbrella}>
+              <Umbrella color={colors.blue} size={40} />
+            </View>
+            <Text style={styles.rainChance}>
+              {props.events[1].chance_of_rain > props.events[1].chance_of_snow
+                ? props.events[1].chance_of_rain
+                : props.events[1].chance_of_snow}
+              %
+            </Text>
           </View>
-          <View style={styles.umbrella}>
-            <Umbrella color={colors.blue} size={40} />
-          </View>
-          <Text style={styles.rainChance}>
-            {props.events[1].chance_of_rain > props.events[1].chance_of_snow
-              ? props.events[1].chance_of_rain
-              : props.events[1].chance_of_snow}
-            %
-          </Text>
-        </View>
-      </CollapseBody>
-    </Collapse>
-  );
+        </CollapseBody>
+      </Collapse>
+    );
 };
 
 // Annoying object for translating month to text
