@@ -7,6 +7,7 @@ import {
   StatusBar,
   Image,
 } from "react-native";
+import { borderLeftColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import colors from "../../Colors";
 import {
   ParseConditionForIcon,
@@ -162,6 +163,9 @@ const CurrentWeather = (props) => {
             <Text style={{ fontSize: 25, color: colors.light.background }}>
               {Math.round(props.weather.forecast.forecastday[0].day.maxtemp_f)}
             </Text>
+            <Text style={{ position: "absolute", fontSize: 10, color: colors.light.background, right: "10%", top: "40%", fontWeight: "bold"}}>
+              °
+            </Text>
           </View>
           <View
             style={{
@@ -181,6 +185,9 @@ const CurrentWeather = (props) => {
             </Text>
             <Text style={{ fontSize: 25, color: colors.light.accent }}>
               {Math.round(props.weather.forecast.forecastday[0].day.mintemp_f)}
+            </Text>
+            <Text style={{ position: "absolute", fontSize: 10, color: colors.light.accent, right: "10%", top: "40%", fontWeight: "bold"}}>
+              °
             </Text>
           </View>
           <View
